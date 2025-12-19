@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>I Love You Shristy ❤️</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body{
+    margin:0;
+    font-family:'Segoe UI',sans-serif;
+    background:black;
+    color:white;
+    text-align:center;
+    overflow:hidden;
+}
+#start{
+    position:fixed;
+    inset:0;
+    background:linear-gradient(120deg,#ff416c,#ff4b2b);
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    z-index:10;
+}
+#start button{
+    padding:15px 35px;
+    border:none;
+    border-radius:30px;
+    background:black;
+    color:white;
+    font-size:18px;
+}
+#countdown{
+    font-size:50px;
+    margin:20px;
+    display:none;
+}
+.card{
+    background:rgba(0,0,0,0.6);
+    padding:25px;
+    margin:40px auto;
+    max-width:420px;
+    border-radius:20px;
+}
+button{
+    padding:12px 25px;
+    border:none;
+    border-radius:25px;
+    background:#ff0055;
+    color:white;
+    font-size:16px;
+}
+canvas{
+    position:fixed;
+    inset:0;
+    z-index:-1;
+}
+#final{
+    display:none;
+    margin-top:80px;
+}
+#final h1{
+    font-size:3em;
+    animation:love 2s infinite;
+}
+@keyframes love{
+    0%{transform:scale(1);color:#ff4b2b;}
+    50%{transform:scale(1.2);color:#ffcccb;}
+    100%{transform:scale(1);color:#ff4b2b;}
+}
+</style>
+</head>
+
+<body>
+
+<div id="start">
+    <h1>🎧 Tap to Begin Love Story 💖</h1>
+    <div id="countdown">10</div>
+    <button id="startBtn" onclick="startCountdown()">Start 🎆</button>
+</div>
+
+<canvas id="fireworks"></canvas>
+
+<audio id="song" loop>
+    <source src="Mere Haath Mein Fanaa.mp3" type="audio/mp3">
+</audio>
+
+<div class="card">
+    <h1>🎂 Happy Birthday Shristy 🎂</h1>
+    <p>
+        Tum meri duniya ho ❤️<br>
+        Tumhari ek smile meri har thakaan mita deti hai ✨
+    </p>
+    <button onclick="proposal()">Next 💍</button>
+</div>
+
+<div id="proposal" class="card" style="display:none;">
+    <h1>💍 We meet soon Trust me ❤️</h1>
+    <p>
+       ❤️ Mujhe Puri Umar ke leye tumhara haath Pakadna Hai ❤️<br>
+       ❤️ Es leye Thoda wait mara bacha ❤️
+    </p>
+    <button onclick="finalLove()">Final Surprise 🎁</button>
+</div>
+
+<div id="final">
+    <h1>❤️ I Love You Shristy ❤️</h1>
+    <h2>Forever & Always ♾️</h2>
+</div>
+
+<script>
+// Countdown before show
+function startCountdown() {
+    document.getElementById("startBtn").style.display = "none"; // hide button
+    let countdown = document.getElementById("countdown");
+    countdown.style.display = "block";
+    let time = 10; // 10 seconds
+    countdown.innerText = time;
+    
+    let interval = setInterval(() => {
+        time--;
+        countdown.innerText = time;
+        if(time <= 0){
+            clearInterval(interval);
+            countdown.style.display = "none"; // hide countdown
+            startShow(); // start the fireworks and song
+        }
+    }, 1000);
+}
+
+function startShow(){
+    document.getElementById("start").style.display="none";
+    document.getElementById("song").play();
+    fireworks();
+}
+
+function proposal(){
+    document.getElementById("proposal").style.display="block";
+    document.getElementById("proposal").scrollIntoView({behavior:"smooth"});
+}
+
+function finalLove(){
+    document.getElementById("proposal").style.display="none";
+    let final = document.getElementById("final");
+    final.style.display="block";
+    final.scrollIntoView({behavior:"smooth"});
+}
+
+// Fireworks
+const c=document.getElementById("fireworks");
+const x=c.getContext("2d");
+c.width=innerWidth;
+c.height=innerHeight;
+
+let p=[];
+function fw(){
+    let X=Math.random()*c.width;
+    let Y=Math.random()*c.height/2;
+    for(let i=0;i<60;i++){
+        p.push({
+            x:X,
+            y:Y,
+            vx:Math.random()*6-3,
+            vy:Math.random()*6-3,
+            l:100
+        });
+    }
+}
+
+function fireworks(){
+    setInterval(fw,700);
+    (function anim(){
+        x.clearRect(0,0,c.width,c.height);
+        p.forEach((e,i)=>{
+            e.x+=e.vx;
+            e.y+=e.vy;
+            e.l--;
+            x.fillStyle=`hsl(${Math.random()*360},100%,60%)`;
+            x.fillRect(e.x,e.y,3,3);
+            if(e.l<=0)p.splice(i,1);
+        });
+        requestAnimationFrame(anim);
+    })();
+}
+</script>
+
+</body>
+</html>
